@@ -24,11 +24,11 @@
     <View>
       <Name>codepoint-table</Name>
       <ViewSelectedBy>
-        <TypeName>unishell.codepoint</TypeName>
+        <TypeName>Codepoint</TypeName>
       </ViewSelectedBy>
       <GroupBy>
-        <PropertyName>_OriginatingString</PropertyName> 
-        <CustomControlName>codepoint-string</CustomControlName>  
+        <PropertyName>_OriginatingString</PropertyName>
+        <CustomControlName>codepoint-string</CustomControlName>
       </GroupBy>
       <TableControl>
         <TableHeaders>
@@ -37,6 +37,7 @@
           </TableColumnHeader>
           <TableColumnHeader>
             <Label>Name</Label>
+            <Width>40</Width>
           </TableColumnHeader>
           ##DEFAULT_ENCODING_TABLE_HEADERS##
           <TableColumnHeader>
@@ -52,7 +53,10 @@
                 <ScriptBlock>if($_.PSObject.Members['_Combiner']){$_._Combiner + $_.CodepointString.PadLeft(9)} else { $_.CodepointString }</ScriptBlock>
               </TableColumnItem>
               <TableColumnItem>
-                <PropertyName>Name</PropertyName>
+                <!-- <PropertyName>Name</PropertyName> -->
+                <ScriptBlock>
+                if ($_.AlternativeNames) { $_.Name + "`n" + ($_.AlternativeNames -join "`n") } else { $_.Name }
+                </ScriptBlock>
               </TableColumnItem>
               ##DEFAULT_ENCODING_TABLE_ITEMS##
               <TableColumnItem>
@@ -66,7 +70,7 @@
      <View>
       <Name>codepoint-list</Name>
       <ViewSelectedBy>
-        <TypeName>unishell.codepoint</TypeName>
+        <TypeName>Codepoint</TypeName>
       </ViewSelectedBy>
       <ListControl>
         <ListEntries>
@@ -91,6 +95,7 @@
               <ListItem><Label>UppercaseMapping</Label><ScriptBlock>'U+' + $_.UppercaseMapping.ToString('X4')</ScriptBlock></ListItem>
               <ListItem><Label>LowercaseMapping</Label><ScriptBlock>'U+' + $_.LowercaseMapping.ToString('X4')</ScriptBlock></ListItem>
               <ListItem><Label>TitlecaseMapping</Label><ScriptBlock>'U+' + $_.TitlecaseMapping.ToString('X4')</ScriptBlock></ListItem>
+              <ListItem><PropertyName>AlternativeNames</PropertyName></ListItem>
               ##ENCODING_LIST_ITEMS##
             </ListItems>
           </ListEntry>

@@ -81,12 +81,12 @@ Dude
 
 Codepoint Name                           utf-8       utf-16 Value
 --------- ----                           -----       ------ -----
-  U+1F480 SKULL                    F0 9F 92 80  3D D8 80 DC  💀  
-  U+1F481 INFORMATION DESK PERSON  F0 9F 92 81  3D D8 81 DC  💁  
-  U+1F482 GUARDSMAN                F0 9F 92 82  3D D8 82 DC  💂  
-  U+1F483 DANCER                   F0 9F 92 83  3D D8 83 DC  💃  
-  U+1F484 LIPSTICK                 F0 9F 92 84  3D D8 84 DC  💄  
-  U+1F485 NAIL POLISH              F0 9F 92 85  3D D8 85 DC  💅  
+  U+1F480 SKULL                    F0 9F 92 80  3D D8 80 DC  💀
+  U+1F481 INFORMATION DESK PERSON  F0 9F 92 81  3D D8 81 DC  💁
+  U+1F482 GUARDSMAN                F0 9F 92 82  3D D8 82 DC  💂
+  U+1F483 DANCER                   F0 9F 92 83  3D D8 83 DC  💃
+  U+1F484 LIPSTICK                 F0 9F 92 84  3D D8 84 DC  💄
+  U+1F485 NAIL POLISH              F0 9F 92 85  3D D8 85 DC  💅
 
 .EXAMPLE
 # display other encodings
@@ -96,11 +96,11 @@ señor
 
   Codepoint Name                              iso-8859-1     utf-16BE        utf-8 Value
   --------- ----                              ----------     --------        ----- -----
-┌─   U+0073 LATIN SMALL LETTER S                      73        00 73           73   s  
-├─   U+0065 LATIN SMALL LETTER E                      65        00 65           65   e  
-├─   U+00F1 LATIN SMALL LETTER N WITH TILDE           F1        00 F1        C3 B1   ñ  
-├─   U+006F LATIN SMALL LETTER O                      6F        00 6F           6F   o  
-└─   U+0072 LATIN SMALL LETTER R                      72        00 72           72   r  
+┌─   U+0073 LATIN SMALL LETTER S                      73        00 73           73   s
+├─   U+0065 LATIN SMALL LETTER E                      65        00 65           65   e
+├─   U+00F1 LATIN SMALL LETTER N WITH TILDE           F1        00 F1        C3 B1   ñ
+├─   U+006F LATIN SMALL LETTER O                      6F        00 6F           6F   o
+└─   U+0072 LATIN SMALL LETTER R                      72        00 72           72   r
 
 .EXAMPLE
 # display no encodings
@@ -132,14 +132,15 @@ LineBreakClass            : AL - Alphabetic
 Category                  : Lu - Letter, Uppercase
 CanonicalCombiningClasses : 0 - Spacing, split, enclosing, reordrant, and Tibetan subjoined
 BidiCategory              : L - Left-to-Right
-DecompositionMapping      : 
-DecimalDigitValue         : 
-DigitValue                : 
-NumericValue              : 
+DecompositionMapping      :
+DecimalDigitValue         :
+DigitValue                :
+NumericValue              :
 Mirrored                  : False
-UppercaseMapping          : 
+UppercaseMapping          :
 LowercaseMapping          : U+0434
-TitlecaseMapping          : 
+TitlecaseMapping          :
+AlternativeNames          :
 utf-8                     : D0 94
 utf-16                    : 14 04
 #>
@@ -178,9 +179,7 @@ function Get-UniCodepoint {
 
     process {
         if ($psCmdlet.ParameterSetName -match 'codepoint') {
-            foreach ($c in $codepoint) {
-                getChar $c
-            }
+            $codepoint | getCharByCodepoint
         }
         elseif ($psCmdlet.ParameterSetName -match 'string') {
             foreach ($s in $inputString) {
@@ -371,6 +370,28 @@ function Get-UniString {
     }
 }
 
+<#
+.SYNOPSIS
+Find the codepoint by name.
+#>
+function Find-UniCodepoint {
+
+    [CmdletBinding()]
+    param(
+        [Parameter(Position = 0, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
+        [ValidateNotNullOrEmpty()]
+        [string] $Name
+    )
+
+    begin {
+        loadStub
+    }
+
+    process {
+        getByName $Name
+    }
+}
+
 # tab completion through all available encodings for 'Encoding' arg on all relevant cmdlets
 if (Get-Command 'Register-ArgumentCompleter' -ea 0) {
     Register-ArgumentCompleter -CommandName 'Get-UniCodepoint', 'Get-UniByte', 'Get-UniString' -ParameterName 'Encoding' -ScriptBlock {
@@ -399,5 +420,5 @@ New-Alias unibyte Get-UniByte
 New-Alias unistring Get-UniString
 
 Export-ModuleMember `
-    -Function 'Get-UniCodepoint','Get-UniByte','Get-UniString' `
+    -Function 'Get-UniCodepoint','Get-UniByte','Get-UniString','Find-UniCodepoint' `
     -Alias 'unicode','unibyte','unistring'
