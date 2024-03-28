@@ -92,9 +92,9 @@
               <ListItem><PropertyName>DigitValue</PropertyName></ListItem>
               <ListItem><PropertyName>NumericValue</PropertyName></ListItem>
               <ListItem><PropertyName>Mirrored</PropertyName></ListItem>
-              <ListItem><Label>UppercaseMapping</Label><ScriptBlock>'U+' + $_.UppercaseMapping.ToString('X4')</ScriptBlock></ListItem>
-              <ListItem><Label>LowercaseMapping</Label><ScriptBlock>'U+' + $_.LowercaseMapping.ToString('X4')</ScriptBlock></ListItem>
-              <ListItem><Label>TitlecaseMapping</Label><ScriptBlock>'U+' + $_.TitlecaseMapping.ToString('X4')</ScriptBlock></ListItem>
+              <ListItem><Label>UppercaseMapping</Label><ScriptBlock>if ($null -ne $_.UpperCaseMapping) { 'U+{0:X4}' -f $_.UppercaseMapping }</ScriptBlock></ListItem>
+              <ListItem><Label>LowercaseMapping</Label><ScriptBlock>if ($null -ne $_.LowercaseMapping) { 'U+{0:X4}' -f $_.LowercaseMapping }</ScriptBlock></ListItem>
+              <ListItem><Label>TitlecaseMapping</Label><ScriptBlock>if ($null -ne $_.TitlecaseMapping) { 'U+{0:X4}' -f $_.TitlecaseMapping }</ScriptBlock></ListItem>
               <ListItem><PropertyName>AlternativeNames</PropertyName></ListItem>
               ##ENCODING_LIST_ITEMS##
             </ListItems>
