@@ -1,6 +1,6 @@
 param(
     $dataFilesDirectory,
-    $UnicodeVersion = '10.0.0'
+    $UnicodeVersion = '15.0.0'
 )
 
 $scriptDir = Split-Path $psCommandPath
