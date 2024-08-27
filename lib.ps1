@@ -1,7 +1,8 @@
 using namespace System.Collections.Generic
 
 param(
-    $dataFilesDirectory
+    $dataFilesDirectory,
+    $UnicodeVersion = '15.0.0'
 )
 
 Set-StrictMode -Version Latest
@@ -30,7 +31,7 @@ if ($missingFiles.Length -ne 0) {
     Write-Host $errorMessage -ForegroundColor Yellow
     if ($AutoDownloadDataFiles -or ((Read-Host 'Press Y to download these files now') -match 'y')) {
         $missingFiles | % {
-            Invoke-WebRequest "https://www.unicode.org/Public/10.0.0/ucd/$_" -OutFile "$dataFilesDirectory/$_"
+            Invoke-WebRequest "https://www.unicode.org/Public/${UnicodeVersion}/ucd/$_" -OutFile "$dataFilesDirectory/$_"
         }
     }
     else {
