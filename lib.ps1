@@ -1,5 +1,6 @@
 param(
-    $dataFilesDirectory
+    $dataFilesDirectory,
+    $UnicodeVersion = '10.0.0'
 )
 
 $scriptDir = Split-Path $psCommandPath
@@ -23,8 +24,8 @@ if ($missingFiles.Length -ne 0) {
     $errorMessage = "Required Unicode data files ($($missingFiles -join ', ')) were not found."
     Write-Host $errorMessage -ForegroundColor Yellow
     if ($AutoDownloadDataFiles -or ((Read-Host 'Press Y to download these files now') -match 'y')) {
-        $missingFiles | % { 
-            Invoke-WebRequest "https://www.unicode.org/Public/10.0.0/ucd/$_" -OutFile "$dataFilesDirectory/$_"
+        $missingFiles | % {
+            Invoke-WebRequest "https://www.unicode.org/Public/${UnicodeVersion}/ucd/$_" -OutFile "$dataFilesDirectory/$_"
         }
     }
     else {
